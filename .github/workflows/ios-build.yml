@@ -28,4 +28,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Multiserv-iOS
-          path: build/ios/iphoneos/Runner.ipa
+          path: build/ios/iphoneos/*.ipa
+
+-name: Find IPA
+run: |
+find . -name "*.ipa"

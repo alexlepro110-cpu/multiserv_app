@@ -29,7 +29,3 @@ jobs:
         with:
           name: Multiserv-iOS
           path: build/ios/iphoneos/*.ipa
-
--name: Find IPA
-run: |
-find . -name "*.ipa"

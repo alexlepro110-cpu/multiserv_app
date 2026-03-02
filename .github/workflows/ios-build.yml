@@ -11,14 +11,23 @@ jobs:
    
     steps:
       - uses: actions/checkout@v4
+     
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
          
-      - run: flutter pub get
-      - run: flutter build macos --release
-     
+      - name: Install dependencies
+        run: flutter pub get
+       
+      - name: Build macOS
+        run: flutter build macos --release
+       
+      - name: Zip .app
+        run: |
+          cd build/macos/Build/Products/Release
+          zip -r Multiserv-macOS.zip *.app
+         
       - uses: actions/upload-artifact@v4
         with:
           name: Multiserv-macOS
-          path: build/macos/Build/Products/Release/*.app 
+          path: build/macos/Build/Products/Release/*.zip 

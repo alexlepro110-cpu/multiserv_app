@@ -10,26 +10,20 @@ jobs:
     runs-on: macos-latest
    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
      
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           channel: stable
          
-      - name: Install dependencies
-        run: flutter pub get
-       
-      - name: List files before build
-        run: ls -la
-       
-      - name: Build iOS
-        run: flutter build ios --release --no-codesign
-       
-      - name: List files after build
-        run: |
-          echo "=== RECHERCHE DE FICHIERS ==="
-          find . -name "*.app" -o -name "*.ipa"
-          echo "=== DOSSIER DE BUILD ==="
-          ls -la build/ios/iphoneos/ || echo "Dossier inexistant" 
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      - run: |
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -r app.ipa Payload
+         
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Multiserv-iOS
+          path: app.ipa 

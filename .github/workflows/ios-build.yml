@@ -1,33 +1,29 @@
-name: Build macOS App
+name: Build MultiServLauncher
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: macos-latest
-   
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
     steps:
-      - uses: actions/checkout@v4
-     
-      - uses: subosito/flutter-action@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          channel: stable
-         
+          node-version: 20
+
       - name: Install dependencies
-        run: flutter pub get
-       
-      - name: Build macOS
-        run: flutter build macos --release
-       
-      - name: Zip .app
-        run: |
-          cd build/macos/Build/Products/Release
-          zip -r Multiserv-macOS.zip *.app
-         
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Multiserv-macOS
-          path: build/macos/Build/Products/Release/*.zip 
+        run: npm install
+
+      - name: Build app
+        run: npx electron-builder  

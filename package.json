@@ -1,0 +1,15 @@
+"build": {
+  "appId": "com.multiserv.launcher",
+  "productName": "MultiServLauncher",
+  "mac": {
+    "target": "dmg",
+    "category": "public.app-category.games"
+  },
+  "linux": {
+    "target": ["AppImage", "deb", "rpm", "tar.gz"],
+    "category": "Game"
+  },
+  "win": {
+    "target": "nsis"
+  }
+} 
